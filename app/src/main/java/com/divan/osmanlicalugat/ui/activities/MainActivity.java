@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
         btnSave = findViewById(R.id.btnSave);
         btnClear = findViewById(R.id.btnClear);
         btnGoRegister = findViewById(R.id.btnGoRegister);
-        layoutToast =  findViewById(R.id.rLayoutToast);
+        layoutToast = findViewById(R.id.rLayoutToast);
         listViev = findViewById(R.id.listViewItems);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
 
@@ -75,25 +75,18 @@ public class MainActivity extends Activity {
 
 
         editText.addTextChangedListener(new TextWatcher() {
-
-            // Text değişirken
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 adapter.clear(); // for ListView(lViev) be null
 
                 int lengthS = s.toString().length();
 
-                if (lengthS != 0)
-                    btnClear.setVisibility(ImageButton.VISIBLE);
-                else
-                    btnClear.setVisibility(ImageButton.INVISIBLE);
+                if (lengthS != 0) btnClear.setVisibility(ImageButton.VISIBLE);
+                else btnClear.setVisibility(ImageButton.INVISIBLE);
 
                 String callWord;
-                if (lengthS == 0)
-                    callWord = "a";
-                else
-                    callWord = CustomUtils.getRegexString(s.toString());
+                if (lengthS == 0) callWord = "a";
+                else callWord = CustomUtils.getRegexString(s.toString());
 
                 List<Word> listByName = repo.getListByName(callWord);
                 adapter.clear();
@@ -104,8 +97,7 @@ public class MainActivity extends Activity {
 
             // Text değişmeden önce
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             // Text değiştikten sonra
@@ -117,15 +109,13 @@ public class MainActivity extends Activity {
 
 
         toast = new Toast(getApplicationContext());
-        listViev.setOnItemClickListener((parent, view, position, id) ->{
+        listViev.setOnItemClickListener((parent, view, position, id) -> {
             Word word = adapter.getItem(position);
             layoutToast.setVisibility(RelativeLayout.INVISIBLE);
             positionSelected = position;
 
             textViewTitle.setText(word.getKelime());
             textViewBody.setText(word.getAnlam());
-//				textViewTitle.setText(word.get(position).getKelime());
-//				textViewBody.setText(word.get(position).getAnlam());
 
             if (word.getIndeks() == 0) {
                 btnSave.setImageResource(R.drawable.inactive);
@@ -137,7 +127,6 @@ public class MainActivity extends Activity {
 
 
         btnSave.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 update();
@@ -174,22 +163,15 @@ public class MainActivity extends Activity {
 
         if (layoutToast.getVisibility() == View.VISIBLE) {
             layoutToast.setVisibility(RelativeLayout.INVISIBLE);
-        } else if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getRepeatCount() == 0) {
+        } else if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 
             try {
-                new AlertDialog.Builder(
-                        this)
-                        .setTitle("Programdan Çıkılsın Mı?")
-                        .setCancelable(false).setPositiveButton("Evet", ((dialog, which) -> {
+                new AlertDialog.Builder(this).setTitle("Programdan Çıkılsın Mı?").setCancelable(false).setPositiveButton("Evet", ((dialog, which) -> {
                     dialog.dismiss();
                     android.os.Process.killProcess(android.os.Process.myPid());
-                }))
-                        .setNegativeButton("Hayır", ((dialog, which) -> {
+                })).setNegativeButton("Hayır", ((dialog, which) -> {
 
-                        }))
-                        .create()
-                        .show();
+                })).create().show();
 
                 return super.onKeyDown(keyCode, event);
 
@@ -198,9 +180,7 @@ public class MainActivity extends Activity {
                 return true;
             }
         }
-
         return true;
-
     }
 
 }
